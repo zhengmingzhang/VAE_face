@@ -4,65 +4,101 @@ import torch.nn as nn
 class AutoEncoder(nn.Module):
     def __init__(self):
         super(AutoEncoder, self).__init__()
-        # self.encoder=nn.Sequential(     #->(3,60,60)
-        ###############################################################
-        self.conv1 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=3,
-                out_channels=16,
-                kernel_size=3,
-                stride=1,
-                padding=1,
-            ),  # ->(16,60,60)
-            nn.ReLU(),  # ->(16,60,60)
-            nn.MaxPool2d(kernel_size=2),  # ->(16,30,30)
-        )
+        latent_dim = 128
+        modules = []
+        in_channels = 3
+        hidden_dims = [32, 64, 128, 256, 512]
+        # Build Encoder
+        for h_dim in hidden_dims:
+            modules.append(
+                nn.Sequential(
+                    nn.Conv2d(in_channels, out_channels=h_dim,
+                              kernel_size=3, stride=2, padding=1),
+                    nn.BatchNorm2d(h_dim),
+                    nn.LeakyReLU())
+            )
+            in_channels = h_dim
 
-        # ->(16,48,48)
-        ###############################################################
-        self.conv2 = nn.Sequential(
-            nn.Conv2d(  # ->(16,48,48)
-                in_channels=16,
-                out_channels=32,
-                kernel_size=3,
-                stride=1,
-                padding=1),  # ->(32,30,30)
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),  # ->(32,15,15)
+        self.encoder = nn.Sequential(*modules)
+        self.fc_mu = nn.Linear(hidden_dims[-1] * 4, latent_dim)
+        self.fc_var = nn.Linear(hidden_dims[-1] * 4, latent_dim)
 
-        )
+        # Build Decoder
+        modules = []
 
-        ###############################################################
-        self.linear = nn.Sequential(
-            nn.Linear(32 * 15 * 15, 256),
-            nn.Tanh(),  # 激活函数
-            nn.Linear(256, 64),
-            nn.Tanh(),
-            nn.Linear(64, 12),
-            nn.Tanh(),
-            nn.Linear(12, 3),
-            nn.Tanh()
-        )
+        self.decoder_input = nn.Linear(latent_dim, hidden_dims[-1] * 4)
+        # 反转hidden_dims 这样是为了能够恢复成原来的图片size
+        hidden_dims.reverse()
 
-        # )
-        self.decoder = nn.Sequential(
-            nn.Linear(3, 12),
-            nn.Tanh(),
-            nn.Linear(12, 64),
-            nn.Tanh(),
-            nn.Linear(64, 128),
-            nn.Tanh(),
-            nn.Linear(128, 60 * 60 * 3),
-            nn.Sigmoid()
-        )
+        for i in range(len(hidden_dims) - 1):
+            modules.append(
+                nn.Sequential(
+                    nn.ConvTranspose2d(hidden_dims[i],
+                                       hidden_dims[i + 1],
+                                       kernel_size=3,
+                                       stride=2,
+                                       padding=1,
+                                       output_padding=1),
+                    nn.BatchNorm2d(hidden_dims[i + 1]),
+                    nn.LeakyReLU())
+            )
 
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.conv2(x)
-        x = x.view(x.size(0), -1)
-        encoded = self.linear(x)
-        decoded = self.decoder(encoded)
-        return encoded, decoded
+        self.decoder = nn.Sequential(*modules)
+        # 单独设置一个final_layer是为了对最后一层进行特殊处理
+        self.final_layer = nn.Sequential(
+            nn.ConvTranspose2d(hidden_dims[-1],
+                               hidden_dims[-1],
+                               kernel_size=3,
+                               stride=2,
+                               padding=1,
+                               output_padding=1),
+            nn.BatchNorm2d(hidden_dims[-1]),
+            nn.LeakyReLU(),
+            nn.Conv2d(hidden_dims[-1], out_channels=3,
+                      kernel_size=3, padding=1),
+            nn.Sigmoid())
+    def encode(self, input):
+        """
+        Encodes the input by passing through the encoder network
+        and returns the latent codes.
+        :param input: (Tensor) Input tensor to encoder [N x C x H x W]
+        :return: (Tensor) List of latent codes
+        """
+        result = self.encoder(input)
+        result = torch.flatten(result, start_dim=1)
+
+        # Split the result into mu and var components
+        # of the latent Gaussian distribution
+        mu = self.fc_mu(result)
+        log_var = self.fc_var(result)
+
+        return [mu, log_var]
+
+    def decode(self, z):
+        result = self.decoder_input(z)
+        result = result.view(-1, 512, 2, 2)
+        result = self.decoder(result)
+        result = self.final_layer(result)
+        return result
+
+    def reparameterize(self, mu, logvar):
+        """
+        Will a single z be enough ti compute the expectation
+        for the loss??
+        :param mu: (Tensor) Mean of the latent Gaussian
+        :param logvar: (Tensor) Standard deviation of the latent Gaussian
+        :return:
+        """
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return eps * std + mu
+
+    def forward(self, input):
+        mu, log_var = self.encode(input)
+        z = self.reparameterize(mu, log_var)
+        decoded = self.decode(z)
+        return  [decoded, mu, log_var]
+
 
 
 
