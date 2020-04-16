@@ -18,7 +18,7 @@ def loss_function(recon_x, x, mu, logvar):
         BCE += F.binary_cross_entropy(recon_x_one, x.view(-1, 3 * 64 * 64))
     BCE /= len(recon_x)
     KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    KLD /= BATCH_SIZE * 3 * 128 * 128
+    KLD /= BATCH_SIZE * 3 * 64 * 64
 
     return BCE + KLD
 
