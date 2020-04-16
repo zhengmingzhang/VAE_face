@@ -7,7 +7,7 @@ from model import AutoEncoder
 class face_AE():
     def __init__(self):
         self.auto: AutoEncoder = torch.load("./models/autoencoder.pkl",map_location='cpu')
-
+        self.auto.eval()
     def get_img(self, img_path):
         image = []
         img = cv2.imread(img_path)
@@ -47,9 +47,9 @@ if __name__ == "__main__":
     img_path = "./celeba_select/000281.jpg"
     img = face.get_img(img_path)
     feature = face.get_feature(img)
-    print(feature.shape)
-    #face.invtrans(feature)
-    for i in range(30):
-        face.get_rand_face()
+    print(feature)
+    face.invtrans(feature)
+    # for i in range(30):
+    #     face.get_rand_face()
 
 

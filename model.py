@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 # 定义自编码器的网络结构
 class AutoEncoder(nn.Module):
     def __init__(self):
@@ -89,15 +90,28 @@ class AutoEncoder(nn.Module):
         :param logvar: (Tensor) Standard deviation of the latent Gaussian
         :return:
         """
-        std = torch.exp(0.5 * logvar)
-        eps = torch.randn_like(std)
-        return eps * std + mu
+        if self.training:
+            # multiply log variance with 0.5, then in-place exponent
+            # yielding the standard deviation
+
+            sample_z = []
+            for _ in range(10):
+                std = logvar.mul(0.5).exp_()  # type: Variable
+                eps = Variable(std.data.new(std.size()).normal_())
+                sample_z.append(eps.mul(std).add_(mu))
+
+            return sample_z
+
+        else:
+            return mu
 
     def forward(self, input):
         mu, log_var = self.encode(input)
         z = self.reparameterize(mu, log_var)
-        decoded = self.decode(z)
-        return  [decoded, mu, log_var]
+        if self.training:
+            return [self.decode(z) for z in z], mu, log_var
+        else:
+            return self.decode(z), mu, log_var
 
 
 
