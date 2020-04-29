@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="addf02ae-c868-45a5-9540-39bc80b29116" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/API.py" beforeDir="false" afterPath="$PROJECT_DIR$/API.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/autoencoder.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/autoencoder.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataload.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataload.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1aRfUYRXD3AidHxDM96J9iOqVzc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="dataload" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="autoencoder" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dataload.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="autoencoder" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="vae" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="autoencoder" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/vae.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.train" />
+        <item itemvalue="Python.dataload" />
+        <item itemvalue="Python.vae" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="addf02ae-c868-45a5-9540-39bc80b29116" name="Default Changelist" comment="" />
+      <created>1586703343069</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586703343069</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1829" height="248" key="GridCell.Tab.0.bottom" timestamp="1588128975177">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="248" key="GridCell.Tab.0.bottom/65.24.1855.1056@65.24.1855.1056" timestamp="1588128975177" />
+    <state width="1829" height="248" key="GridCell.Tab.0.center" timestamp="1588128975177">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="248" key="GridCell.Tab.0.center/65.24.1855.1056@65.24.1855.1056" timestamp="1588128975177" />
+    <state width="1829" height="248" key="GridCell.Tab.0.left" timestamp="1588128975177">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="248" key="GridCell.Tab.0.left/65.24.1855.1056@65.24.1855.1056" timestamp="1588128975177" />
+    <state width="1829" height="248" key="GridCell.Tab.0.right" timestamp="1588128975177">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="248" key="GridCell.Tab.0.right/65.24.1855.1056@65.24.1855.1056" timestamp="1588128975177" />
+    <state width="1829" height="341" key="GridCell.Tab.1.bottom" timestamp="1588073503555">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="341" key="GridCell.Tab.1.bottom/65.24.1855.1056@65.24.1855.1056" timestamp="1588073503555" />
+    <state width="1829" height="341" key="GridCell.Tab.1.center" timestamp="1588073503555">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="341" key="GridCell.Tab.1.center/65.24.1855.1056@65.24.1855.1056" timestamp="1588073503555" />
+    <state width="1829" height="341" key="GridCell.Tab.1.left" timestamp="1588073503555">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="341" key="GridCell.Tab.1.left/65.24.1855.1056@65.24.1855.1056" timestamp="1588073503555" />
+    <state width="1829" height="341" key="GridCell.Tab.1.right" timestamp="1588073503555">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1829" height="341" key="GridCell.Tab.1.right/65.24.1855.1056@65.24.1855.1056" timestamp="1588073503555" />
+    <state x="850" y="190" key="SettingsEditor" timestamp="1586757697035">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state x="850" y="190" key="SettingsEditor/65.24.1855.1056@65.24.1855.1056" timestamp="1586757697035" />
+    <state width="928" height="542" key="XDebugger.FullValuePopup" timestamp="1587979887058">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="928" height="542" key="XDebugger.FullValuePopup/65.24.1855.1056@65.24.1855.1056" timestamp="1587979887058" />
+    <state x="432" y="113" width="1118" height="848" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588044140657">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state x="432" y="113" width="1118" height="848" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/65.24.1855.1056@65.24.1855.1056" timestamp="1588044140657" />
+    <state x="632" y="236" width="719" height="678" key="search.everywhere.popup" timestamp="1587964979448">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state x="632" y="236" width="719" height="678" key="search.everywhere.popup/65.24.1855.1056@65.24.1855.1056" timestamp="1587964979448" />
+  </component>
+</project>
