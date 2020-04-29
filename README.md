@@ -18,3 +18,5 @@ python train.py
 python API.py
 ~~~
 
+## 模型效果
+![重构](./imgs/reconstruction.png)
