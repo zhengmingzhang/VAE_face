@@ -2,22 +2,27 @@ import torch
 import cv2
 import random
 from model import AutoEncoder
-
+from torchvision.utils import save_image
+from PIL import Image
+import numpy as np
+from dataload import *
 
 class face_AE():
+
     def __init__(self):
-        self.auto: AutoEncoder = torch.load("./models/autoencoder.pkl",map_location='cpu')
+        self.auto: AutoEncoder = torch.load("./autoencoder.pkl",map_location='cpu')
         self.auto.eval()
+
     def get_img(self, img_path):
-        image = []
-        img = cv2.imread(img_path)
-        if img is None:
-            print('错误! 无法在该地址找到图片!')
-        dim = (64, 64)
-        img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
-        image.append(img)
-        img = torch.Tensor(image).permute(0, 3, 2, 1) / 255
-        return img
+        im = Image.open(img_path)
+        im = np.array(im)
+        im = np.array(Image.fromarray(im).resize((64,64)))
+        im = im / 255
+        im = im.transpose((2, 0, 1))
+        im = torch.from_numpy(im)
+        im = im.unsqueeze(0)
+        im = im.float()
+        return im
 
     def get_feature(self, img):
         mu, log_var = self.auto.encode(img)
@@ -25,31 +30,40 @@ class face_AE():
         return feature
 
     def invtrans(self, feature):
-        img_re = self.auto.decode(feature)
-        print(img_re.shape)
-        img_re = img_re.contiguous().permute(0, 3, 2, 1).detach().cpu().numpy()*255
-        print(img_re[0].shape)
+        img_re = self.auto.decode(feature).cpu()
         rand_name = random.randint(0,100)
-        cv2.imwrite("imgs/" + str(rand_name)+ ".jpg", img_re[0])
+        save_image(img_re, './imgs/' + str(rand_name) + '.png')
         return img_re
 
     def get_rand_face(self, length=128):
-        random_feature = []
-        for i in range(length):
-            feature = random.uniform(-0.5, 0.5)
-            feature = round(feature, 4)
-            random_feature.append(feature)
-        random_feature = torch.FloatTensor(random_feature)
-        self.invtrans(random_feature)
-        return random_feature
+        sample = Variable(torch.randn(64, length))
+        sample = self.auto.decode(sample).cpu()
+        rand_name = random.randint(0, 100)
+        save_image(sample.data.view(64, 3, 64, 64), './imgs/' + str(rand_name) + '.png')
+
+    def get_reconstruction(self):
+        n = 10
+        root_dir = "./celeba_select"
+        image_files = os.listdir(root_dir)
+        test_dataset = CelebaDataset(root_dir, image_files[:10], (64, 64), transforms.Compose([ToTensor()]))
+        test_loader = DataLoader(test_dataset, batch_size=10, num_workers=1, shuffle=True)
+        for i, data in enumerate(test_loader):
+            data = Variable(data.type(torch.FloatTensor), volatile=True)
+            print(data.shape)
+            feature = self.get_feature(data)
+            recon_batch = self.auto.decode(feature).cpu()
+            print(recon_batch.shape)
+            if i == 0:
+                comparison = torch.cat([data[:n],
+                                        recon_batch.view(10, 3, 64, 64)[:n]])
+                save_image(comparison.data.cpu(),
+                           './imgs/reconstruction' +  '.png', nrow=n)
+
 if __name__ == "__main__":
     face = face_AE()
-    img_path = "./celeba_select/000281.jpg"
+    img_path = "./celeba_select/000181.jpg"
     img = face.get_img(img_path)
-    feature = face.get_feature(img)
-    print(feature)
-    face.invtrans(feature)
-    # for i in range(30):
-    #     face.get_rand_face()
+    face.get_rand_face()
+    face.get_reconstruction()
 
 

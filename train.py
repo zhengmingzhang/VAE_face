@@ -6,10 +6,9 @@ import argparse
 import cv2
 import os
 from dataload import *
-from torch.utils.tensorboard import SummaryWriter
 from model import AutoEncoder
+from torchvision import datasets, transforms
 
-tb = SummaryWriter()
 # 定义loss
 def loss_function(recon_x, x, mu, logvar):
     # how well do input x and output recon_x agree?
@@ -25,7 +24,6 @@ def loss_function(recon_x, x, mu, logvar):
 # 训练并反向传播
 def trainOneBatch(batch: torch.FloatTensor, raw: torch.FloatTensor):
     decoded, mu, log_var = auto.forward(batch)
-    tb.add_graph(auto, batch)
     loss = loss_function(decoded, raw, mu, log_var)
     optimizer.zero_grad()
     loss.backward()
@@ -37,25 +35,11 @@ def testOneBatch(batch: torch.FloatTensor, raw: torch.FloatTensor):
     loss = loss_function(decoded, raw, mu, log_var)
     return loss
 
-# 加载数据集
-def getTrainData(data_path="./celeba_select/"):
-    files = os.listdir(data_path)
-    imgs = []  # 构造一个存放图片的列表数据结构
-    for file in files:
-        file_path = data_path + "/" + file
-        img = cv2.imread(file_path)
-        if img is None:
-            print('错误! 无法在该地址找到图片!')
-        dim = (64, 64)
-        img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
-        imgs.append(img)
-    return imgs
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--lr', type=float, default=0.005, help='lr')
     parser.add_argument('--batch_size', type=int, default=144, help='batch size')
-    parser.add_argument('--epoch', type=int, default=2, help='epoch size')
+    parser.add_argument('--epoch', type=int, default=1, help='epoch size')
     opt = parser.parse_args()
     # 超参数
     LR = opt.lr
@@ -74,7 +58,7 @@ if __name__ == "__main__":
     root_dir = "./celeba_select"
     image_files = os.listdir(root_dir)
     train_dataset = CelebaDataset(root_dir, image_files, (64, 64), transforms.Compose([ToTensor()]))
-    train_loader = DataLoader(train_dataset, batch_size=144, num_workers=1, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=32, num_workers=1, shuffle=True)
     for i in range(EPOCHES):
         # 打乱数据
         auto.train()
@@ -92,13 +76,13 @@ if __name__ == "__main__":
             # calculate the gradient of the loss w.r.t. the graph leaves
             # i.e. input variables -- by the power of pytorch!
             loss.backward()
-            train_loss += loss.data
+            train_loss += loss.item()
             optimizer.step()
             if batch_idx % LOG_INTERVAL == 0:
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(i, batch_idx * len(data),
                                                                                len(train_loader.dataset),
                                                                                100. * batch_idx / len(train_loader),
-                                                                               loss.data / len(data)))
+                                                                               loss.item() / len(data)))
 
         print('====> Epoch: {} Average loss: {:.4f}'.format(i, train_loss / len(train_loader.dataset)))
 

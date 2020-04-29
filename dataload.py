@@ -28,15 +28,26 @@ class CelebaDataset(Dataset):
     def __len__(self):
         return len(self.im_list)
 
+    # def __getitem__(self, idx):
+    #     im = Image.open(os.path.join(self.root_dir, self.im_list[idx]))
+    #     im = np.array(im)
+    #     im = cv2.resize(im, self.resize_dim, interpolation=cv2.INTER_AREA)
+    #     im = im / 255
+    #     if self.transform:
+    #         im = self.transform(im)
+
     def __getitem__(self, idx):
         im = Image.open(os.path.join(self.root_dir, self.im_list[idx]))
         im = np.array(im)
-        im = cv2.resize(im, self.resize_dim, interpolation=cv2.INTER_AREA)
+        im = np.array(Image.fromarray(im).resize((self.resize_dim)))
         im = im / 255
+
         if self.transform:
             im = self.transform(im)
 
         return im
+
+
 if __name__ == "__main__":
     root_dir = "./celeba_select"
     image_files = os.listdir(root_dir)
