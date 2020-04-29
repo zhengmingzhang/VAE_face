@@ -19,4 +19,4 @@ python API.py
 ~~~
 
 ## 模型效果
-![reconstruction](https://github.com/zhengmingzhang/VAE_face/blob/master/imgs/reconstruction.png)
+![](https://github.com/zhengmingzhang/VAE_face/blob/master/imgs/reconstruction.png)
