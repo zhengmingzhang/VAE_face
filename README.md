@@ -19,6 +19,7 @@ python API.py
 ~~~
 
 ## 模型效果
+reconstruction
 ![reconstruction](https://github.com/zhengmingzhang/VAE_face/blob/master/imgs/reconstruction.png)
-
+sanple generate
 ![generate](https://github.com/zhengmingzhang/VAE_face/blob/master/imgs/53.png)
